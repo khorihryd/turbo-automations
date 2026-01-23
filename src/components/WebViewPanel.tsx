@@ -1,10 +1,10 @@
 import React from 'react';
+import { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-// import { WebView } from "react-native-webview";
+import { WebView } from "react-native-webview";
 
-export default function WebViewPanel() {
-  const url = "https://oss.system.local"; // Contoh URL internal
+export default function WebViewPanel({url}) {
 
   return (
     <View style={styles.container}>
@@ -28,19 +28,10 @@ export default function WebViewPanel() {
 
       {/* Main WebView Area */}
       <View style={styles.webviewWrapper}>
-        <View style={styles.placeholderContainer}>
-          <MaterialCommunityIcons name="web" size={48} color="#1E293B" />
-          <Text style={styles.placeholderTitle}>WEB INTERFACE ACTIVE</Text>
-          <Text style={styles.placeholderSubtitle}>RENDERING SECURE DATA STREAM...</Text>
-          
-          {/* WebView Sesungguhnya nanti di sini */}
-          {/* <WebView 
-            source={{ uri: url }} 
+          <WebView 
+            source={{ uri: url }}
             style={styles.actualWebView}
-          /> 
-          */}
-        </View>
-        
+          />         
         {/* Decorative Grid Overlay (Opsional untuk kesan industrial) */}
         <View style={styles.gridOverlay} pointerEvents="none" />
       </View>
@@ -133,7 +124,7 @@ const styles = StyleSheet.create({
   },
   actualWebView: {
     flex: 1,
-    backgroundColor: 'transparent',
+    // backgroundColor: 'transparent',
   },
   footerStatus: {
     flexDirection: 'row',

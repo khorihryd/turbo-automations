@@ -4,9 +4,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { supabase } from '../lib/supabase';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import OssScreen from './OssScreen';
+import { LasikScreen } from './LasikScreen';
+import DptScreen from './DptScreen';
 
 export default function DashboardScreen() {
   const [showOss, setShowOss] = useState(false);
+  const [showLasik,setShowLasik] = useState(false);
+  const [showDpt,setShowDpt] = useState(false);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -15,10 +19,16 @@ export default function DashboardScreen() {
   if (showOss) {
     return <OssScreen />;
   }
+  if (showLasik) {
+    return <LasikScreen />;
+  }
+  if (showDpt) {
+    return <DptScreen />;
+  }
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" />
+        <StatusBar barStyle="light-content" backgroundColor="#19183B" />
       
       {/* Top Decoration */}
       <View style={styles.headerDecoration}>
@@ -48,6 +58,34 @@ export default function DashboardScreen() {
             </View>
             <View style={styles.cardInfo}>
               <Text style={styles.cardTitle}>OPEN OSS SCREEN</Text>
+              <Text style={styles.cardDescription}>Inisialisasi sistem otomasi dan monitoring.</Text>
+            </View>
+            <MaterialCommunityIcons name="chevron-right" size={24} color="#334155" />
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={styles.primaryCard} 
+            onPress={() => setShowLasik(true)}
+            activeOpacity={0.8}
+          >
+            <View style={styles.cardIconBox}>
+              <MaterialCommunityIcons name="monitor-dashboard" size={32} color="#F8FAFC" />
+            </View>
+            <View style={styles.cardInfo}>
+              <Text style={styles.cardTitle}>OPEN LASIK SCREEN</Text>
+              <Text style={styles.cardDescription}>Inisialisasi sistem otomasi dan monitoring.</Text>
+            </View>
+            <MaterialCommunityIcons name="chevron-right" size={24} color="#334155" />
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={styles.primaryCard} 
+            onPress={() => setShowDpt(true)}
+            activeOpacity={0.8}
+          >
+            <View style={styles.cardIconBox}>
+              <MaterialCommunityIcons name="monitor-dashboard" size={32} color="#F8FAFC" />
+            </View>
+            <View style={styles.cardInfo}>
+              <Text style={styles.cardTitle}>OPEN DPT SCREEN</Text>
               <Text style={styles.cardDescription}>Inisialisasi sistem otomasi dan monitoring.</Text>
             </View>
             <MaterialCommunityIcons name="chevron-right" size={24} color="#334155" />

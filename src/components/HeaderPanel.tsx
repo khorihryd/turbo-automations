@@ -5,7 +5,7 @@ import Entypo from '@expo/vector-icons/Entypo';
 import { useState } from 'react';
 
 
-const HeaderPanel = ({backto}) => {
+const HeaderPanel = ({backto,HeaderTitle}:any) => {
 
     const [isRun,setIsRun] = useState(false);
 
@@ -24,7 +24,7 @@ const HeaderPanel = ({backto}) => {
         </TouchableOpacity>
         {/* Tengah: Judul dengan Subtitle (Opsional) */}
         <View style={styles.titleContainer}>
-            <Text style={styles.mainTitle}>OSS SCREEN</Text>
+            <Text style={styles.mainTitle}>{HeaderTitle}</Text>
             <View style={styles.statusIndicator}>
                 <View style={[styles.dot, { backgroundColor: isRun ? '#10B981' : '#64748B' }]} />
                 <Text style={styles.statusText}>{isRun ? 'ACTIVE' : 'IDLE'}</Text>

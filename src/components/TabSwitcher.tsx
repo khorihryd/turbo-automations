@@ -112,4 +112,4 @@ const styles = StyleSheet.create({
     backgroundColor: "#3B82F6", // Garis aksen kecil di bawah untuk kesan modern
     borderRadius: 2,
   }
-});
+}); 

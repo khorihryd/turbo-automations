@@ -1,19 +1,23 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, StatusBar } from 'react-native';
+import { View, Text, StatusBar, StyleSheet } from 'react-native'
+import React from 'react'
+import { useState } from 'react';
 import { SafeAreaView } from "react-native-safe-area-context";
-import DashboardScreen from '../screens/DashboardScreen';
+import DashboardScreen from './DashboardScreen';
 
-// Import komponen yang sudah kita redesign sebelumnya
+//import komponen
 import HeaderPanel from '../components/HeaderPanel';
-import TabSwitcher from "../components/TabSwitcher";
-import ConsolePanel from "../components/ConsolePanel";
-import WebViewPanel from "../components/WebViewPanel";
-import ProgressPanel from "../components/ProgressPanel";
+import TabSwitcher from '../components/TabSwitcher';
+import ConsolePanel from '../components/ConsolePanel';
+import WebViewPanel from '../components/WebViewPanel';
+import ProgressPanel from '../components/ProgressPanel';
 
-const OssScreen = () => {
+const DptScreen = () => {
+// kumpulan State
     const [activeTab, setActiveTab] = useState<"console" | "webview">("console");
     const [showDashboard,setShowDashboard] = useState(false);
+    
 
+    //kumpulan fungsi
     const handleBackBtn = ()=>{
       setShowDashboard(true)
     }
@@ -21,25 +25,41 @@ const OssScreen = () => {
     if (showDashboard){
         return <DashboardScreen />
     }
-
+    
   return (
     <SafeAreaView style={styles.safeArea}>
-      <StatusBar barStyle="light-content" backgroundColor="#19183B" />
-      
-      {/* Header Tetap di Atas */}
-      <HeaderPanel 
-        backto={handleBackBtn}
-        HeaderTitle="Oss Checker"
-        />
-
+        <StatusBar barStyle="light-content" backgroundColor="#19183B" />
+        <HeaderPanel
+            backto={handleBackBtn} 
+            HeaderTitle="DPT Checker"
+            />
       <View style={styles.mainContent}>
         {/* Kontrol Navigasi Tab */}
         <TabSwitcher activeTab={activeTab} onChange={setActiveTab} />
 
         {/* Dynamic Display Area */}
-        <View style={styles.displayWrapper}>
-          {activeTab === "console" ? <ConsolePanel /> : <WebViewPanel />}
+        {/* <View style={styles.displayWrapper}>
+          {activeTab === "console" ? <ConsolePanel /> : <WebViewPanel url="https://cekdptonline.kpu.go.id/" />}
+        </View> */}
+        <View style={styles.content}>
+        <View
+          style={[
+            styles.tabContent,
+            activeTab !== "console" && styles.hidden
+          ]}
+        >
+          <ConsolePanel />
         </View>
+
+        <View
+          style={[
+            styles.tabContent,
+            activeTab !== "webview" && styles.hidden
+          ]}
+        >
+          <WebViewPanel url="https://cekdptonline.kpu.go.id/" />
+        </View>
+      </View>
 
         {/* Bottom Monitoring Panel */}
         <View style={styles.bottomSection}>
@@ -48,7 +68,7 @@ const OssScreen = () => {
 
         {/* System Footer Metadata */}
         <View style={styles.systemFooter}>
-          <Text style={styles.footerBrand}>OSS TERMINAL v1.0.4</Text>
+          <Text style={styles.footerBrand}>DPT TERMINAL v1.0.4</Text>
           <View style={styles.systemStatus}>
             <View style={styles.statusDot} />
             <Text style={styles.statusText}>ENCRYPTED CONNECTION</Text>
@@ -56,12 +76,25 @@ const OssScreen = () => {
         </View>
       </View>
     </SafeAreaView>
-  );
-};
+  )
+}
 
-export default OssScreen;
+export default DptScreen
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#0F172A",
+  },
+  content: {
+    flex: 1,
+  },
+  tabContent: {
+    flex: 1,
+  },
+  hidden: {
+    display: "none",
+  },
   safeArea: {
     flex: 1,
     backgroundColor: "#0F172A", // Deep Navy Utama
