@@ -1,10 +1,11 @@
 import React from 'react';
-import { useState } from 'react';
+import { useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { WebView } from "react-native-webview";
+import { INJECTED_FUNCTIONS } from '../utils/helperFunction';
 
-export default function WebViewPanel({url}) {
+export default function WebViewPanel({url,webViewRef,pesan,onLoadEnd}) {
 
   return (
     <View style={styles.container}>
@@ -29,8 +30,16 @@ export default function WebViewPanel({url}) {
       {/* Main WebView Area */}
       <View style={styles.webviewWrapper}>
           <WebView 
+            ref={webViewRef}
             source={{ uri: url }}
             style={styles.actualWebView}
+            injectedJavaScriptBeforeContentLoaded={INJECTED_FUNCTIONS}
+            javaScriptEnabled
+            domStorageEnabled
+            onMessage={pesan}
+            onLoadEnd={onLoadEnd} // <--- TAMBAHKAN BARIS INI
+            sharedCookiesEnabled={true}
+            thirdPartyCookiesEnabled={true}
           />         
         {/* Decorative Grid Overlay (Opsional untuk kesan industrial) */}
         <View style={styles.gridOverlay} pointerEvents="none" />

@@ -1,7 +1,8 @@
 import { View, Text, StyleSheet, TouchableOpacity,ScrollView } from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-export default function ConsolePanel() {
+export default function ConsolePanel({pilihFile,logMsg,fileName,contentFile}:any) {
+
   return (
 <View style={styles.container}>
       {/* Header Section */}
@@ -16,27 +17,33 @@ export default function ConsolePanel() {
       {/* Console Log - Terminal Style */}
       <View style={styles.consoleBox}>
         <ScrollView contentContainerStyle={styles.logContainer}>
-          <Text style={styles.logText}>
-            <Text style={styles.timestamp}>[08:42:11]</Text> INITIALIZING AUTOMATION...
-          </Text>
-          <Text style={styles.logText}>
-            <Text style={styles.timestamp}>[08:42:15]</Text> CONNECTING TO DATABASE...
-          </Text>
-          <Text style={styles.logTextHighlight}>
-            <Text style={styles.timestamp}>[08:42:18]</Text> WAITING FOR DATA INPUT...
-          </Text>
+          {logMsg.length === 0 ? (
+              <Text style={[styles.logText, {color: '#666'}]}>Menunggu perintah...</Text>
+            ) : (
+              logMsg.map((l, i) => <Text key={i} style={styles.logText}>{l}</Text>)
+            )}
         </ScrollView>
       </View>
 
       {/* Action Section */}
       <View style={styles.actionSection}>
         <Text style={styles.inputLabel}>DATA SOURCE CONFIGURATION</Text>
-        <TouchableOpacity style={styles.uploadBox} activeOpacity={0.8}>
+        <TouchableOpacity style={styles.uploadBox} activeOpacity={0.8} onPress={pilihFile}>
           <View style={styles.uploadContent}>
             <MaterialCommunityIcons name="file-excel-outline" size={24} color="#10B981" />
             <View style={styles.uploadTextContainer}>
-              <Text style={styles.uploadTitle}>IMPORT EXCEL DATA</Text>
-              <Text style={styles.uploadSubtitle}>Supported format: .xlsx, .csv</Text>
+              {logMsg.length === 0 ? (
+                <View>
+                  <Text style={styles.uploadTitle}>IMPORT EXCEL DATA</Text>
+                  <Text style={styles.uploadSubtitle}>Supported format: .xlsx, .csv</Text>
+                </View>
+            ) : (
+                <View>
+                  <Text style={styles.uploadTitle}>{fileName}</Text>
+                  <Text style={styles.uploadSubtitle}>{contentFile}</Text>
+                </View>
+            )}
+
             </View>
           </View>
           <MaterialCommunityIcons name="chevron-right" size={20} color="#475569" />
@@ -50,7 +57,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#0F172A", // Deep Navy background
-    padding: 20,
+    padding: 5,
   },
   sectionHeader: {
     flexDirection: 'row',
