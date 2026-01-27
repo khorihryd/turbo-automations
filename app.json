@@ -18,13 +18,41 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ffffff",
+        "permissions": [
+          "android.permission.READ_EXTERNAL_STORAGE",
+          "android.permission.WRITE_EXTERNAL_STORAGE",
+          "android.permission.ACCESS_MEDIA_LOCATION"
+        ]
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.READ_MEDIA_VISUAL_USER_SELECTED",
+        "android.permission.READ_MEDIA_IMAGES",
+        "android.permission.READ_MEDIA_VIDEO",
+        "android.permission.READ_MEDIA_AUDIO"
+      ],
+      "package": "com.khorihryd.exposupabaseauth"
     },
+    "plugins": [
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "Aplikasi memerlukan akses ke galeri untuk menyimpan file Excel.",
+          "savePhotosPermission": "Izinkan aplikasi untuk menyimpan file ke galeri."
+        }
+      ]
+    ],
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "1bfbf902-a4b7-43a6-968c-5ee59fe0a502"
+      }
     }
   }
 }

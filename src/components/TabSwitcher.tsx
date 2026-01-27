@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Animated } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 type TabType = "console" | "webview";
@@ -11,7 +11,7 @@ interface TabSwitcherProps {
 
 interface TabProps {
   label: string;
-  icon: keyof typeof MaterialCommunityIcons.symbols;
+  icon: keyof typeof MaterialCommunityIcons.symbol;
   active: boolean;
   onPress: () => void;
 }

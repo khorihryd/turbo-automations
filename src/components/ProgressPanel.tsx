@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-export default function ProgressPanel({success,failed,pending}:any) {
+export default function ProgressPanel({success,failed,pending,totalData, processed}:any) {
 
-    const totalData = 100;
-    const processed = 1;
+    // const totalData = 100;
+    // const processed = 1;
 
 // Hitung persentase secara dinamis
   const progressPercent = (processed / totalData) * 100;

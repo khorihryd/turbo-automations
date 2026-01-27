@@ -2,6 +2,9 @@
 
 #root > main > div.container > div > div > div > div > div > div:nth-child(1) > div > div > div > div > div > div > div.bottom_x > div.column > p
 
+#root > main > div.container > div > div > div > div > div > div:nth-child(1) > div > div > div > div > div > div > div:nth-child(2) > h2 > b
+
+#root > main > div.container > div > div > div > div > div > div:nth-child(1) > div > div > div > div > div > div > div.bottom_x > div.column > h2
 
 
 const popup = window.automation.checkPopupDPT();

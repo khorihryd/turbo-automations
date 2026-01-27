@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
+import React, { useState,useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, StatusBar,Alert } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { supabase } from '../lib/supabase';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -7,10 +7,46 @@ import OssScreen from './OssScreen';
 import { LasikScreen } from './LasikScreen';
 import DptScreen from './DptScreen';
 
+import * as MediaLibrary from 'expo-media-library';
+
 export default function DashboardScreen() {
   const [showOss, setShowOss] = useState(false);
   const [showLasik,setShowLasik] = useState(false);
   const [showDpt,setShowDpt] = useState(false);
+
+useEffect(() => {
+  const requestPermissionsOnOpen = async () => {
+    try {
+      const { status } = await MediaLibrary.getPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert(
+          'Izin Penyimpanan',
+          'Aplikasi memerlukan izin penyimpanan untuk menyimpan hasil scraping ke format Excel.',
+          [
+            {
+              text: 'Berikan Izin',
+              onPress: async () => {
+                const { status: newStatus } = await MediaLibrary.requestPermissionsAsync();
+                if (newStatus === 'granted') {
+                  console.log('Storage permission granted from dashboard');
+                }
+              }
+            },
+            {
+              text: 'Nanti',
+              style: 'cancel'
+            }
+          ]
+        );
+      }
+    } catch (error) {
+      console.error('Permission error:', error);
+    }
+  };
+
+  // Minta izin saat dashboard dibuka
+  requestPermissionsOnOpen();
+}, []);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();

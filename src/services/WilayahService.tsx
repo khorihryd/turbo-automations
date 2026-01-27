@@ -1,4 +1,4 @@
-import { supabase } from "../../lib/supabase";
+import { supabase } from "../lib/supabase";
 
 export const WilayahService = {
   async findKecamatan(kabupatenNama: string, kelurahanNama: string): Promise<string | null> {
