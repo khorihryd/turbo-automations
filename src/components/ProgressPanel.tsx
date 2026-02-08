@@ -7,7 +7,7 @@ export default function ProgressPanel({success,failed,pending,totalData, process
     // const processed = 1;
 
 // Hitung persentase secara dinamis
-  const progressPercent = (processed / totalData) * 100;
+  const progressPercent = totalData? (processed / totalData) * 100 : 0;
 
   return (
     <View style={styles.container}>
@@ -50,12 +50,6 @@ export default function ProgressPanel({success,failed,pending,totalData, process
           </View>
           <Text style={styles.metricValue}>{pending}</Text>
         </View>
-      </View>
-
-      {/* Footer Info */}
-      <View style={styles.footerInfo}>
-        <MaterialCommunityIcons name="shield-sync" size={12} color="#475569" />
-        <Text style={styles.footerText}>SYSTEM STABILITY: OPTIMIZED</Text>
       </View>
     </View>
   );
@@ -138,21 +132,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "700",
     fontFamily: "monospace",
-  },
-  footerInfo: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 20,
-    paddingTop: 15,
-    borderTopWidth: 1,
-    borderTopColor: "#334155",
-  },
-  footerText: {
-    color: "#475569",
-    fontSize: 9,
-    fontWeight: "700",
-    letterSpacing: 1,
-    marginLeft: 6,
-  },
+  }
 });

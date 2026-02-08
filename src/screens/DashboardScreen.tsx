@@ -3,8 +3,10 @@ import { View, Text, TouchableOpacity, StyleSheet, StatusBar,Alert } from 'react
 import { SafeAreaView } from "react-native-safe-area-context";
 import { supabase } from '../lib/supabase';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useQuery } from '@tanstack/react-query';
+import { fetchFeatureFlags, checkIsDeveloper } from '../lib/featureControl';
 import OssScreen from './OssScreen';
-import { LasikScreen } from './LasikScreen';
+import LasikScreen  from './LasikScreen';
 import DptScreen from './DptScreen';
 
 import * as MediaLibrary from 'expo-media-library';
@@ -13,6 +15,35 @@ export default function DashboardScreen() {
   const [showOss, setShowOss] = useState(false);
   const [showLasik,setShowLasik] = useState(false);
   const [showDpt,setShowDpt] = useState(false);
+  const [loadingFeature, setLoadingFeature] = useState(false);
+
+// 1. Fetch data maintenance dengan caching 5 menit
+  const { data: featureSettings } = useQuery({
+    queryKey: ['feature-flags'],
+    queryFn: fetchFeatureFlags,
+    staleTime: 1000 * 60 * 5, // Cache tahan 5 menit
+  });
+
+// 2. Logika navigasi dengan Bypass Developer
+  const handleNavigation = async (featureName: string, setVisible: (v: boolean) => void) => {
+    const isDev = await checkIsDeveloper();
+    const feature = featureSettings?.find(f => f.feature_name === featureName);
+
+    // Jika fitur maintenance DAN user bukan developer, maka blokir
+    if (feature && !feature.is_active && !isDev) {
+      Alert.alert(
+        "Maintenance Mode",
+        feature.message || "Fitur sedang diperbaiki.",
+        [{ text: "Mengerti" }]
+      );
+      return;
+    }
+
+    // Jika developer atau fitur aktif, silakan masuk
+    setVisible(true);
+  };
+
+
 
 useEffect(() => {
   const requestPermissionsOnOpen = async () => {
@@ -52,15 +83,9 @@ useEffect(() => {
     await supabase.auth.signOut();
   };
 
-  if (showOss) {
-    return <OssScreen />;
-  }
-  if (showLasik) {
-    return <LasikScreen />;
-  }
-  if (showDpt) {
-    return <DptScreen />;
-  }
+  if (showOss) return <OssScreen />;
+  if (showLasik) return <LasikScreen />;
+  if (showDpt) return <DptScreen />;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -84,49 +109,34 @@ useEffect(() => {
 
         {/* Menu Cards */}
         <View style={styles.menuContainer}>
+        {/* Tombol OSS */}
           <TouchableOpacity 
             style={styles.primaryCard} 
-            onPress={() => setShowOss(true)}
-            activeOpacity={0.8}
+            onPress={() => handleNavigation('oss', setShowOss)}
           >
-            <View style={styles.cardIconBox}>
-              <MaterialCommunityIcons name="monitor-dashboard" size={32} color="#F8FAFC" />
-            </View>
-            <View style={styles.cardInfo}>
-              <Text style={styles.cardTitle}>OPEN OSS SCREEN</Text>
-              <Text style={styles.cardDescription}>Inisialisasi sistem otomasi dan monitoring.</Text>
-            </View>
-            <MaterialCommunityIcons name="chevron-right" size={24} color="#334155" />
-          </TouchableOpacity>
-          <TouchableOpacity 
-            style={styles.primaryCard} 
-            onPress={() => setShowLasik(true)}
-            activeOpacity={0.8}
-          >
-            <View style={styles.cardIconBox}>
-              <MaterialCommunityIcons name="monitor-dashboard" size={32} color="#F8FAFC" />
-            </View>
-            <View style={styles.cardInfo}>
-              <Text style={styles.cardTitle}>OPEN LASIK SCREEN</Text>
-              <Text style={styles.cardDescription}>Inisialisasi sistem otomasi dan monitoring.</Text>
-            </View>
-            <MaterialCommunityIcons name="chevron-right" size={24} color="#334155" />
-          </TouchableOpacity>
-          <TouchableOpacity 
-            style={styles.primaryCard} 
-            onPress={() => setShowDpt(true)}
-            activeOpacity={0.8}
-          >
-            <View style={styles.cardIconBox}>
-              <MaterialCommunityIcons name="monitor-dashboard" size={32} color="#F8FAFC" />
-            </View>
-            <View style={styles.cardInfo}>
-              <Text style={styles.cardTitle}>OPEN DPT SCREEN</Text>
-              <Text style={styles.cardDescription}>Inisialisasi sistem otomasi dan monitoring.</Text>
-            </View>
-            <MaterialCommunityIcons name="chevron-right" size={24} color="#334155" />
+            {/* Isi Card ... */}
+            <Text style={styles.cardTitle}>CEK OSS</Text>
+            {/* Tambahkan indikator visual jika fitur sedang maintenance (opsional) */}
+            {!featureSettings?.find(f => f.feature_name === 'oss')?.is_active && (
+              <Text style={{color: '#EAB308', fontSize: 10}}> (🛠 MAINTENANCE)</Text>
+            )}
           </TouchableOpacity>
 
+        {/* Tombol LASIK */}
+          <TouchableOpacity 
+            style={styles.primaryCard} 
+            onPress={() => handleNavigation('lasik', setShowLasik)}
+          >
+            <Text style={styles.cardTitle}>CEK LASIK</Text>
+          </TouchableOpacity>
+
+        {/* Tombol DPT */}
+          <TouchableOpacity 
+            style={styles.primaryCard} 
+            onPress={() => handleNavigation('dpt', setShowDpt)}
+          >
+            <Text style={styles.cardTitle}>CEK DPT</Text>
+          </TouchableOpacity>
           <TouchableOpacity 
             style={styles.secondaryCard} 
             onPress={handleLogout}

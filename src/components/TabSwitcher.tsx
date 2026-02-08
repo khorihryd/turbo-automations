@@ -22,7 +22,7 @@ export default function TabSwitcher({ activeTab, onChange }: TabSwitcherProps) {
       <View style={styles.tabContainer}>
         <Tab
           label="CONSOLE"
-          icon="terminal"
+          icon="console"
           active={activeTab === "console"}
           onPress={() => onChange("console")}
         />

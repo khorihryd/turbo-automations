@@ -7,7 +7,8 @@ export const WilayahService = {
       const { data, error } = await supabase
         .from('wilayah_indonesia')
         .select('kecamatan')
-        .or(`kabupaten_kota.ilike.%${kabupatenNama}%, kelurahan_desa.ilike.%${kelurahanNama}%`)
+        .ilike('kabupaten_kota', `%${kabupatenNama}%`)
+        .ilike('kelurahan_desa', `%${kelurahanNama}%`)
         .limit(1);
 
       if (error) {

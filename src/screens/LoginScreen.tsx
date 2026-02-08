@@ -30,14 +30,14 @@ export default function LoginScreen() {
           <View style={styles.logoSquare}>
             <Ionicons name="shield-checkmark" size={32} color="#F8FAFC" />
           </View>
-          <Text style={styles.brandTitle}>SYSTEM ACCESS</Text>
-          <Text style={styles.brandSubtitle}>ENTER YOUR CREDENTIALS TO PROCEED</Text>
+          <Text style={styles.brandTitle}>Turbo Automation</Text>
+          <Text style={styles.brandSubtitle}>Login Untuk Menggunakan Fitur Pengecekan OSS,LASIK,DPT checker</Text>
         </View>
 
         {/* Form Section */}
         <View style={styles.formSection}>
           <View style={styles.inputGroup}>
-            <Text style={styles.inputLabel}>EMAIL ADDRESS</Text>
+            <Text style={styles.inputLabel}>Alamat E-Mail</Text>
             <TextInput
               placeholder="user@system.local"
               placeholderTextColor="#475569"
@@ -49,7 +49,7 @@ export default function LoginScreen() {
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.inputLabel}>SECURE PASSWORD</Text>
+            <Text style={styles.inputLabel}>Password</Text>
             <TextInput
               placeholder="••••••••"
               placeholderTextColor="#475569"
